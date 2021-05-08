@@ -15,4 +15,5 @@
 //     return view('welcome');
 // });
 Auth::routes();
-Route::get('/', 'SpotController@index');
+Route::get('/', 'SpotController@index')->name('spots.index');
+Route::resource('/spots', 'SpotController')->except(['index'])->middleware('auth');

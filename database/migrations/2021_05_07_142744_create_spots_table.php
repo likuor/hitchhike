@@ -18,9 +18,9 @@ class CreateSpotsTable extends Migration
             $table->string('title');
             $table->text('body');
             $table->text('prefecture');
-            $table->text('city');
-            $table->text('street');
-            $table->string('image_file_name',100);//画像
+            $table->text('city')->nullable();
+            $table->text('street')->nullable();
+            $table->string('image_file_name',100)->nullable();//画像
             $table->bigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
