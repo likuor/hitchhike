@@ -16,4 +16,5 @@
 // });
 Auth::routes();
 Route::get('/', 'SpotController@index')->name('spots.index');
-Route::resource('/spots', 'SpotController')->except(['index'])->middleware('auth');
+Route::resource('/spots', 'SpotController')->except(['index' , 'show'])->middleware('auth');
+Route::resource('/spots', 'SpotController')->only(['show']);

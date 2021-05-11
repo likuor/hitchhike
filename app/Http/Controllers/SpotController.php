@@ -8,10 +8,14 @@ use Illuminate\Http\Request;
 
 class SpotController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Spot::class, 'spot');
+    }
+
     public function index()
     {
-        $spots = Spot::all()->sortByDesc('created_at');
-
+        $spots = Spot::orderBy('created_at', 'desc')->paginate(3);
 
         return view('spots.index', ['spots' => $spots]);
     }
@@ -19,20 +23,45 @@ class SpotController extends Controller
     public function create()
     {
         // return view('spots.create');
+        $spot = new spot();
         $prefectures = config('prefecture');
-        return view('spots.create')->with(['prefectures' => $prefectures]);
+        return view('spots.create')->with([
+            'prefectures' => $prefectures,
+            'spot' => $spot,
+        ]);
     }
 
     public function store(SpotRequest $request, Spot $spot)
     {
-        $spot->title = $request->title;
-        $spot->body = $request->body;
-        $spot->prefecture = $request->prefecture;
-        $spot->city = $request->city;
-        $spot->street = $request->street;
-        $spot->image_file_name = $request->image_file_name;
+        $spot->fill($request->all());
         $spot->user_id = $request->user()->id;
         $spot->save();
         return redirect()->route('spots.index');
+    }
+
+    public function edit(Spot $spot)
+    {
+        $prefectures = config('prefecture');
+        return view('spots.edit')->with([
+            'prefectures' => $prefectures,
+            'spot' => $spot,
+        ]);
+    }
+
+    public function update(SpotRequest $request, Spot $spot)
+    {
+        $spot->fill($request->all())->save();
+        return redirect()->route('spots.index');
+    }
+
+    public function destroy(Spot $spot)
+    {
+        $spot->delete();
+        return redirect()->route('spots.index');
+    }
+
+    public function show(Spot $spot)
+    {
+        return view('spots.show', ['spot' => $spot]);
     }
 }
