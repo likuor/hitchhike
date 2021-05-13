@@ -18,3 +18,7 @@ Auth::routes();
 Route::get('/', 'SpotController@index')->name('spots.index');
 Route::resource('/spots', 'SpotController')->except(['index' , 'show'])->middleware('auth');
 Route::resource('/spots', 'SpotController')->only(['show']);
+Route::prefix('spots')->name('spots.')->group(function () {
+    Route::put('/{spot}/like', 'SpotController@like')->name('like')->middleware('auth');
+    Route::delete('/{spot}/like', 'SpotController@unlike')->name('unlike')->middleware('auth');
+});

@@ -1,10 +1,10 @@
 <div class="card">
             <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                 <a href="{{ route('spots.show', ['spot' => $spot]) }}">
-                    <img
-                    src="https://mdbootstrap.com/img/new/standard/nature/111.jpg"
-                    class="img-fluid"
-                    />
+                <img
+                src="https://mdbootstrap.com/img/new/standard/nature/111.jpg"
+                class="img-fluid"
+                />
                     <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
                 </a>
             </div>
@@ -76,6 +76,18 @@
                 <p class="card-text">
                 {!! nl2br(e( $spot->body )) !!}
                 </p>
+            </div>
+
+            <div class="card-body pt-0 pb-2 pl-3">
+                <div class="card-text">
+                <spot-like
+                    :initial-is-liked-by='@json($spot->isLikedBy(Auth::user()))'
+                    :initial-count-likes='@json($spot->count_likes)'
+                    :authorized='@json(Auth::check())'
+                    endpoint="{{ route('spots.like', ['spot' => $spot]) }}"
+                >
+                </spot-like>
+                </div>
             </div>
 
         </div>
