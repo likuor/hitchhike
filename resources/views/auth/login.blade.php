@@ -13,6 +13,10 @@
 
                         @include('error_card_list')
 
+                        <a href="{{ route('login.{provider}', ['provider' => 'google']) }}" class="btn btn-block btn-danger">
+                            <i class="fab fa-google mr-1"></i>Googleでログイン
+                        </a>
+
                         <div class="card-text">
                         <form method="POST" action="{{ route('login') }}">
                             @csrf

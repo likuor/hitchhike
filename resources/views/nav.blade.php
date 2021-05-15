@@ -23,11 +23,10 @@
             </div>
         </li>
 
-        <li class="nav-item">
-        <a class="nav-link" href="{{ route('register') }}">ユーザー登録</a>
-        </li>
-
     @guest
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('register') }}">ユーザー登録</a>
+        </li>
         <li class="nav-item">
         <a class="nav-link" href="{{ route('login') }}">ログイン</a>
         </li>
@@ -46,7 +45,7 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
             <button class="dropdown-item" type="button"
-                    onclick="location.href=''">
+                    onclick="location.href='{{ route("users.show", ["name" => Auth::user()->name]) }}'">
             マイページ
             </button>
             <div class="dropdown-divider"></div>

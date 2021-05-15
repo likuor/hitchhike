@@ -11,10 +11,14 @@
 
 
             <div class="card-body d-flex flex-row">
-                <i class="fas fa-user-circle fa-3x mr-1"></i>
+                <a href="{{ route('users.show', ['name' => $spot->user->name]) }}" class="text-dark">
+                    <i class="fas fa-user-circle fa-3x mr-1"></i>
+                </a>
                 <div>
                     <div class="font-weight-bold">
-                        {{ $spot->user->name }}
+                        <a href="{{ route('users.show', ['name' => $spot->user->name]) }}" class="text-dark">
+                            {{ $spot->user->name }}
+                        </a>
                     </div>
                     <div class="font-weight-lighter">
                         {{ $spot->created_at->format('Y/m/d H:i') }}
