@@ -1,10 +1,7 @@
 <div class="card">
-            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+            <div class="card-body d-flex flex-row hover-overlay ripple" data-mdb-ripple-color="light">
                 <a href="{{ route('spots.show', ['spot' => $spot]) }}">
-                <img
-                src="https://mdbootstrap.com/img/new/standard/nature/111.jpg"
-                class="img-fluid"
-                />
+                    <img src="{{ Storage::url($spot->image_file_name) }}" class="img-fluid"/>
                     <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
                 </a>
             </div>

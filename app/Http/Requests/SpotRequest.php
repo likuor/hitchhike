@@ -29,8 +29,7 @@ class SpotRequest extends FormRequest
             'prefecture' => 'required|max:2',
             'city' => 'max:30',
             'street' => 'max:30',
-            'image_file_name' => 'image',
-
+            'image_file_name' => 'file|image',
         ];
     }
 
@@ -39,6 +38,7 @@ class SpotRequest extends FormRequest
         return [
             'title' => 'タイトル',
             'body' => '本文',
+            'image_file_name' => '画像'
         ];
     }
 }

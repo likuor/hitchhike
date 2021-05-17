@@ -29,9 +29,10 @@ Route::get('/', 'SpotController@index')->name('spots.index');
 Route::resource('/spots', 'SpotController')->except(['index' , 'show'])->middleware('auth');
 Route::resource('/spots', 'SpotController')->only(['show']);
 Route::prefix('spots')->name('spots.')->group(function () {
-    Route::put('/{spot}/like', 'SpotController@like')->name('like')->middleware('auth');
-    Route::delete('/{spot}/like', 'SpotController@unlike')->name('unlike')->middleware('auth');
+    Route::put('/{spot}/like', 'LikeController@like')->name('like')->middleware('auth');
+    Route::delete('/{spot}/like', 'LikeController@unlike')->name('unlike')->middleware('auth');
 });
+
 Route::prefix('users')->name('users.')->group(function () {
     Route::get('/{name}', 'UserController@show')->name('show');
     Route::get('/{name}/likes', 'UserController@likes')->name('likes');

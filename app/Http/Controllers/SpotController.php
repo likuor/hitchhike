@@ -15,14 +15,13 @@ class SpotController extends Controller
 
     public function index()
     {
-        $spots = Spot::orderBy('created_at', 'desc')->paginate(3);
+        $spots = Spot::orderBy('created_at', 'desc')->paginate(10);
 
         return view('spots.index', ['spots' => $spots]);
     }
 
     public function create()
     {
-        // return view('spots.create');
         $spot = new spot();
         $prefectures = config('prefecture');
         return view('spots.create')->with([
@@ -35,6 +34,10 @@ class SpotController extends Controller
     {
         $spot->fill($request->all());
         $spot->user_id = $request->user()->id;
+        if(request('image_file_name')){
+            $filePath = $request->image_file_name->store('spots_images','public');
+            $spot->image_file_name = str_replace('spots_images/public/',time(), $filePath);
+        }
         $spot->save();
         return redirect()->route('spots.index');
     }
@@ -50,7 +53,12 @@ class SpotController extends Controller
 
     public function update(SpotRequest $request, Spot $spot)
     {
-        $spot->fill($request->all())->save();
+        $spot->fill($request->all());
+        if(request('image_file_name')){
+            $filePath = $request->image_file_name->store('spots_images','public');
+            $spot->image_file_name = str_replace('spots_images/public/',time(), $filePath);
+        }
+        $spot->save();
         return redirect()->route('spots.index');
     }
 
@@ -63,26 +71,5 @@ class SpotController extends Controller
     public function show(Spot $spot)
     {
         return view('spots.show', ['spot' => $spot]);
-    }
-
-    public function like(Request $request, Spot $spot)
-    {
-        $spot->likes()->detach($request->user()->id);
-        $spot->likes()->attach($request->user()->id);
-
-        return [
-            'id' => $spot->id,
-            'countLikes' => $spot->count_likes,
-        ];
-    }
-
-    public function unlike(Request $request, Spot $spot)
-    {
-        $spot->likes()->detach($request->user()->id);
-
-        return [
-            'id' => $spot->id,
-            'countLikes' => $spot->count_likes,
-        ];
     }
 }

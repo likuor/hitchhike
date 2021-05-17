@@ -25,7 +25,7 @@
     <input type="text" name="street" class="form-control" value="{{ $spot->street ?? old('street') }}">
 </div>
 <!--  -->
-<div class="md-form">
-    <label>画像</label>
-    <input type="text" name="image" class="form-control" value="{{ $spot->image ?? old('image') }}">
+<div class="form-group">
+    <label class="form-label" for="customFile">画像</label>
+    <input type="file" class="form-control" id="customFile" name="image_file_name"/>
 </div>
