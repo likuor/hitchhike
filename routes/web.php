@@ -19,10 +19,10 @@ Route::prefix('login')->name('login.')->group(function () {
     Route::get('/{provider}', 'Auth\LoginController@redirectToProvider')->name('{provider}');
     Route::get('/{provider}/callback', 'Auth\LoginController@handleProviderCallback')->name('{provider}.callback');
 });
+
 Route::prefix('register')->name('register.')->group(function () {
     Route::get('/{provider}', 'Auth\RegisterController@showProviderUserRegistrationForm')->name('{provider}');
     Route::post('/{provider}', 'Auth\RegisterController@registerProviderUser')->name('{provider}');
-
 });
 
 Route::get('/', 'SpotController@index')->name('spots.index');
@@ -40,6 +40,8 @@ Route::prefix('users')->name('users.')->group(function () {
     Route::get('/{name}/followers', 'UserController@followers')->name('followers');
 
     Route::middleware('auth')->group(function () {
+        Route::get('/{name}/edit', 'UserController@edit')->name('edit');
+        Route::patch('/{name}', 'UserController@update')->name('update');
         Route::put('/{name}/follow', 'UserController@follow')->name('follow');
         Route::delete('/{name}/follow', 'UserController@unfollow')->name('unfollow');
     });

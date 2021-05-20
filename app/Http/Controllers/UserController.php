@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -12,6 +13,37 @@ class UserController extends Controller
         $user = User::where('name', $name)->first();
         $spots = $user->spots->sortByDesc('created_at');
 
+        return view('users.show', [
+            'user' => $user,
+            'spots' => $spots,
+        ]);
+    }
+
+    public function edit(string $name)
+    {
+        $user = User::where('name', $name)->first();
+        return view('users.edit', [
+            'user' => $user,
+        ]);
+    }
+
+    public function update(UserRequest $request , User $user)
+    {
+        $user->fill($request->all());
+        $name = $user->name;
+        $user = User::where('name', $name)->first();
+
+        if(request('image_profile')){
+            $filePath = $request->image_profile->store('users_images','public');
+            $user->image_profile = str_replace('users_images/public/',time(), $filePath);
+        }
+
+        $user->introduction = $request->introduction;
+        $user->email = $request->email;
+
+        $spots = $user->spots->sortByDesc('created_at');
+
+        $user->update();
         return view('users.show', [
             'user' => $user,
             'spots' => $spots,

@@ -20,7 +20,7 @@ class CreateSpotsTable extends Migration
             $table->text('prefecture');
             $table->text('city')->nullable();
             $table->text('street')->nullable();
-            $table->string('image_file_name',100)->nullable();//画像
+            $table->string('image_file_name',100)->default('spots_images/noimage.png')->nullable();//画像
             $table->bigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

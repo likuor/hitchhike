@@ -2,7 +2,7 @@
     <div class="card-body">
         <div class="d-flex flex-row">
             <a href="{{ route('users.show', ['name' => $user->name]) }}" class="text-dark">
-                <i class="fas fa-user-circle fa-3x"></i>
+                <img width="50px" src="{{ Storage::url($user->image_profile) }}" alt="">
             </a>
             @if( Auth::id() !== $user->id )
                 <follow-button
@@ -12,6 +12,10 @@
                 endpoint="{{ route('users.follow', ['name' => $user->name]) }}"
                 >
                 </follow-button>
+            @else
+                <a class="btn btn-primary ml-auto" href="{{ route('users.edit', ['name' => $user->name]) }}">
+                    プロフィールを編集
+                </a>
             @endif
         </div>
         <h2 class="h5 card-title m-0">
