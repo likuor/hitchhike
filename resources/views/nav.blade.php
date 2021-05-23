@@ -5,20 +5,22 @@
     <ul class="navbar-nav ml-auto">
         <li>
             <div class="container-fluid">
-                <form class="d-flex input-group w-auto">
-                <input
-                    type="search"
-                    class="form-control"
-                    placeholder="都道府県・都市名"
-                    aria-label="Search"
-                />
-                <button
-                    class="btn btn-outline-primary btn-sm"
-                    type="button"
-                    data-mdb-ripple-color="dark"
-                >
-                    検索する
-                </button>
+                <form class="d-flex input-group w-auto" action="">
+                    <input
+                        type="search"
+                        class="form-control"
+                        placeholder="都道府県・都市名"
+                        aria-label="Search"
+                        name="search"
+                        value="{{ request('search') }}"
+                    />
+                    <button
+                        class="btn btn-outline-primary btn-sm"
+                        type="submit"
+                        data-mdb-ripple-color="dark"
+                    >
+                        検索する
+                    </button>
                 </form>
             </div>
         </li>
@@ -28,13 +30,13 @@
             <a class="nav-link" href="{{ route('register') }}">ユーザー登録</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link" href="{{ route('login') }}">ログイン</a>
+            <a class="nav-link" href="{{ route('login') }}">ログイン</a>
         </li>
     @endguest
 
     @auth
         <li class="nav-item">
-        <a class="nav-link" href="{{ route('spots.create') }}"><i class="fas fa-pen mr-1"></i>投稿する</a>
+            <a class="nav-link" href="{{ route('spots.create') }}"><i class="fas fa-pen mr-1"></i>投稿する</a>
         </li>
 
         <!-- Dropdown -->
@@ -45,7 +47,7 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
             <button class="dropdown-item" type="button"
-                    onclick="location.href='{{ route("users.show", ["name" => Auth::user()->name]) }}'">
+                    onclick="location.href='{{ route('users.show', ['name' => Auth::user()->name]) }}'">
                 マイページ
             </button>
             <div class="dropdown-divider"></div>

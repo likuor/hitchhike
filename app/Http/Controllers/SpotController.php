@@ -72,4 +72,22 @@ class SpotController extends Controller
     {
         return view('spots.show', ['spot' => $spot]);
     }
+
+    public function search(SpotRequest $request)
+    {
+        $spot = Spot::orderBy('created_at', 'asc')->where(function ($query) {
+
+        // 検索機能
+        if ($search = request('search')) {
+                $query->where('title', 'LIKE', "%{$search}%")->orWhere('body','LIKE',"%{$search}%");
+            }
+        });
+        var_dump($keyword);
+
+        // $keyword = $request->input('keyword');
+
+        return redirect()->route('spots.search')->with([
+            'keyword' => $keyword,
+        ]);
+    }
 }

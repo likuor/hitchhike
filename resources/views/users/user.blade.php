@@ -18,11 +18,20 @@
                 </a>
             @endif
         </div>
-        <h2 class="h5 card-title m-0">
-            <a href="{{ route('users.show', ['name' => $user->name]) }}" class="text-dark">
-                {{ $user->name }}
-            </a>
-        </h2>
+        <div class="card-text">
+            <h3 class="card-title m-0">
+                <a href="{{ route('users.show', ['name' => $user->name]) }}" class="text-dark">
+                    {{ $user->name }}
+                </a>
+            </h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="card-text">
+            <h3 class="card-title m-0">
+                {{ $user->introduction }}
+            </h3>
+        </div>
     </div>
     <div class="card-body">
         <div class="card-text">

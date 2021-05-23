@@ -26,6 +26,7 @@ Route::prefix('register')->name('register.')->group(function () {
 });
 
 Route::get('/', 'SpotController@index')->name('spots.index');
+Route::get('/search', 'SpotController@search')->name('spots.search');
 Route::resource('/spots', 'SpotController')->except(['index' , 'show'])->middleware('auth');
 Route::resource('/spots', 'SpotController')->only(['show']);
 Route::prefix('spots')->name('spots.')->group(function () {
