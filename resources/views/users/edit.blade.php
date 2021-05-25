@@ -19,6 +19,9 @@
                                     <label class="form-label" for="customFile">プロフィール画像</label>
                                     <input type="file" class="form-control" id="customFile" name="image_profile"/>
                                 </div>
+                                <div>
+                                    <img src="{{ Storage::url($user->image_profile) }}"/>
+                                </div>
 
                                 <div class="md-form">
                                     <label>名前</label>

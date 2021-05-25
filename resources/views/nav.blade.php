@@ -7,12 +7,12 @@
             <div class="container-fluid">
                 <form class="d-flex input-group w-auto" action="">
                     <input
-                        type="search"
+                        type="keyword"
                         class="form-control"
                         placeholder="都道府県・都市名"
                         aria-label="Search"
-                        name="search"
-                        value="{{ request('search') }}"
+                        name="keyword"
+                        value="{{ request('keyword') }}"
                     />
                     <button
                         class="btn btn-outline-primary btn-sm"

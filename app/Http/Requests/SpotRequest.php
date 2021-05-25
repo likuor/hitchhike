@@ -26,7 +26,7 @@ class SpotRequest extends FormRequest
         return [
             'title' => 'required|max:50',
             'body' => 'required|max:400',
-            'prefecture' => 'required|max:2',
+            'prefecture' => 'required|max:10',
             'city' => 'max:30',
             'street' => 'max:30',
             'image_file_name' => 'file|image',
