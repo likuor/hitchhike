@@ -26,7 +26,6 @@ Route::prefix('register')->name('register.')->group(function () {
 });
 
 Route::get('/', 'SpotController@index')->name('spots.index');
-Route::get('/search', 'SpotController@search')->name('spots.search');
 Route::resource('/spots', 'SpotController')->except(['index' , 'show'])->middleware('auth');
 Route::resource('/spots', 'SpotController')->only(['show']);
 Route::prefix('spots')->name('spots.')->group(function () {
@@ -47,3 +46,7 @@ Route::prefix('users')->name('users.')->group(function () {
         Route::delete('/{name}/follow', 'UserController@unfollow')->name('unfollow');
     });
 });
+
+Route::get('comments/{spot}', 'CommentController@create')->name('comments.create')->middleware('auth');
+Route::post('comments/store', 'CommentController@store')->name('comments.store')->middleware('auth');
+Route::delete('comments/{comment}', 'CommentController@destroy')->name('comments.destroy')->middleware('auth');

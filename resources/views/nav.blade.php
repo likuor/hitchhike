@@ -19,7 +19,7 @@
                         type="submit"
                         data-mdb-ripple-color="dark"
                     >
-                        検索する
+                        検索
                     </button>
                 </form>
             </div>
@@ -36,7 +36,7 @@
 
     @auth
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('spots.create') }}"><i class="fas fa-pen mr-1"></i>投稿する</a>
+            <a class="nav-link" href="{{ route('spots.create') }}"><i class="fas fa-pen mr-1"></i>投稿</a>
         </li>
 
         <!-- Dropdown -->

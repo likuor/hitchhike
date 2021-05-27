@@ -1,6 +1,6 @@
 @extends('app')
 
-@section('title', 'スポット投稿')
+@section('title', 'コメント')
 
 @include('nav')
 
@@ -12,9 +12,8 @@
                     <div class="card-body pt-0">
                         @include('error_card_list')
                         <div class="card-text">
-                            <form method="POST" action="{{ route('spots.store') }}" enctype="multipart/form-data">
-                                @include('spots.form')
-                                <button type="submit" class="btn btn-primary btn-block">投稿する</button>
+                            <form method="POST" action="{{ route('comments.store' , ['spot_id' => $spot->id]) }}" enctype="multipart/form-data">
+                                @include('comments.form')
                             </form>
                         </div>
                     </div>

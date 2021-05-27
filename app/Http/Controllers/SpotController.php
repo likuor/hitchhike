@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use InterventionImage;
 use App\Spot;
+use App\Comment;
 use App\Http\Requests\SpotRequest;
 use Illuminate\Http\Request;
 
@@ -42,15 +42,9 @@ class SpotController extends Controller
     {
         $spot->fill($request->all());
         $spot->user_id = $request->user()->id;
-        // if(request('image_file_name')){
-        //     $filePath = $request->image_file_name->store('spots_images','public');
-        //     $spot->image_file_name = str_replace('spots_images/public/',time(), $filePath);
-        // }
         if(request('image_file_name')){
-            $filePath = $request->file('image_file_name');
-            // $name = $filePath->getClientOriginalName();
-            //アスペクト比を維持、画像サイズを横幅1080pxにして保存する。
-            InterventionImage::make($filePath)->resize(1080, null, function ($constraint) {$constraint->aspectRatio();})->save(public_path('/spots_images/public/' . $filePath ) );
+            $filePath = $request->image_file_name->store('spots_images','public');
+            $spot->image_file_name = str_replace('spots_images/public/',time(), $filePath);
         }
 
         $spot->save();
@@ -83,8 +77,13 @@ class SpotController extends Controller
         return redirect()->route('spots.index');
     }
 
-    public function show(Spot $spot)
+    public function show(Spot $spot , Comment $comment)
     {
-        return view('spots.show', ['spot' => $spot]);
+        $comments = Comment::all()->sortByDesc('created_at');
+
+        return view('spots.show', [
+            'spot' => $spot,
+            'comments' => $comments,
+        ]);
     }
 }

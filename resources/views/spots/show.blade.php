@@ -6,5 +6,8 @@
     @include('nav')
     <div class="container">
         @include('spots.card')
+        @foreach($comments as $comment)
+            @include('comments.show')
+        @endforeach
     </div>
 @endsection

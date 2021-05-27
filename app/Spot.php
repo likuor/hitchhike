@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Spot extends Model
 {
@@ -22,9 +23,9 @@ class Spot extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function likes(): BelongsToMany
+    public function likes():BelongsToMany
     {
-        return $this->belongsToMany('App\User', 'likes')->withTimestamps();
+        return $this->belongsToMany('App\User','likes')->withTimestamps();
     }
 
     public function isLikedBy(?User $user): bool
@@ -37,5 +38,10 @@ class Spot extends Model
     public function getCountLikesAttribute(): int
     {
         return $this->likes->count();
+    }
+
+    public function comments():Hasmany
+    {
+        return $this->hasMany('App\Comment');
     }
 }

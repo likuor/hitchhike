@@ -175,7 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
           // Add Intervention Image.
-        Intervention\Image\ImageServiceProvider::class,
+        // Intervention\Image\ImageServiceProvider::class,
 
     ],
 
@@ -228,7 +228,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         // Add Intervention Image.
-        'InterventionImage' => Intervention\Image\Facades\Image::class,
+        // 'InterventionImage' => Intervention\Image\Facades\Image::class,
 
     ],
 

@@ -83,4 +83,9 @@ class User extends Authenticatable
         return $this->followings->count();
     }
 
+    public function comments():Hasmany
+    {
+        return $this->hasMany('App\Comment');
+    }
+
 }
