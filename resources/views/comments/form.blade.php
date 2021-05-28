@@ -9,7 +9,7 @@
 </div>
 <div class="form-group">
     <label class="form-label" for="customFile">画像</label>
-    <input type="file" class="form-control" id="customFile" name="image_file_name"/>
+    <input type="file" class="form-control" id="customFile" name="image"/>
 </div>
 
 <button type="submit" class="btn btn-primary btn-block">投稿する</button>

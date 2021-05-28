@@ -26,6 +26,7 @@ class CommentRequest extends FormRequest
         return [
             'title' => 'required|max:50',
             'body' => 'required|max:400',
+            'image' => 'file|image',
         ];
     }
 
@@ -34,6 +35,7 @@ class CommentRequest extends FormRequest
         return [
             'title' => 'タイトル',
             'body' => '本文',
+            'image' => '画像',
         ];
     }
 }

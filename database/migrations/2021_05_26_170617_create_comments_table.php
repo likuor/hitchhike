@@ -22,6 +22,7 @@ class CreateCommentsTable extends Migration
             $table->foreign('spot_id')->references('id')->on('spots')->onDelete('cascade');
             $table->string('title');
             $table->text('body');
+            $table->string('image',100)->nullable();//画像
         });
     }
 

@@ -6,6 +6,7 @@ use App\Spot;
 use App\Comment;
 use App\Http\Requests\SpotRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 
 class SpotController extends Controller
@@ -62,11 +63,19 @@ class SpotController extends Controller
 
     public function update(SpotRequest $request, Spot $spot)
     {
-        $spot->fill($request->all());
-        if(request('image_file_name')){
+        if (request('image_file_name')) {
+
+            if ( $spot->image_file_name !== 'spots_images/noimage.png' ) {
+                Storage::delete('public/' . $spot->image_file_name );
+            }
+            $spot->fill($request->all());
             $filePath = $request->image_file_name->store('spots_images','public');
             $spot->image_file_name = str_replace('spots_images/public/',time(), $filePath);
+
+        } else {
+            $spot->fill($request->all());
         }
+
         $spot->save();
         return redirect()->route('spots.index');
     }
@@ -74,16 +83,20 @@ class SpotController extends Controller
     public function destroy(Spot $spot)
     {
         $spot->delete();
+        if ( $spot->image_file_name !== 'spots_images/noimage.png' ) {
+            Storage::delete('public/' . $spot->image_file_name );
+        }
         return redirect()->route('spots.index');
     }
 
     public function show(Spot $spot , Comment $comment)
     {
         $comments = Comment::all()->sortByDesc('created_at');
-
+        $count_comments = '('.$comments->where('spot_id' , $spot->id)->count().'件)';
         return view('spots.show', [
             'spot' => $spot,
             'comments' => $comments,
+            'count_comments' => $count_comments
         ]);
     }
 }

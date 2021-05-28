@@ -1,5 +1,5 @@
 @if( $comment->spot_id === $spot->id )
-    <div class="card">
+    <div class=card>
         <div class="card-body d-flex flex-row">
             <a href="{{ route('users.show', ['name' => $comment->user->name]) }}" class="text-dark">
                 <img src="{{ Storage::url($comment->user->image_profile) }}" width="50px" alt="">
@@ -16,30 +16,19 @@
                 <div class="font-weight-bold">
                     {{ $comment->title }}
                 </div>
+                    @if($comment->image)
+                        <img src="{{ Storage::url($comment->image) }}" width="150px">
+                        <img src="{{ Storage::url($users->users_images->noimage.png) }}" width="150px">
+                    @endif
                     {{ $comment->body }}
             </div>
 
             @if( Auth::id() === $comment->user_id )
-            <!-- dropdown -->
             <div class="ml-auto card-text">
-                <div class="dropdown">
-                    <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <button type="button" class="btn btn-link text-muted m-0 p-2">
-                        <i class="fas fa-ellipsis-v"></i>
-                    </button>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="{{ route('spots.edit', ['spot' => $spot]) }}">
-                            <i class="fas fa-pen mr-1"></i>記事を更新する
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-danger" data-toggle="modal" data-target="#modal-delete-{{ $comment->id }}">
-                            <i class="fas fa-trash-alt mr-1"></i>記事を削除する
-                        </a>
-                    </div>
-                </div>
+                <a class="dropdown-item text-danger" data-toggle="modal" data-target="#modal-delete-{{ $comment->id }}">
+                    <i class="fas fa-trash-alt mr-1"></i>
+                </a>
             </div>
-            <!-- dropdown -->
 
             <!-- modal -->
             <div id="modal-delete-{{ $comment->id }}" class="modal fade" tabindex="-1" role="dialog">
@@ -54,7 +43,7 @@
                             @csrf
                             @method('DELETE')
                             <div class="modal-body">
-                                {{ $comment->title }}を削除します。よろしいですか？
+                                ”{{ $comment->title }}”のコメントを削除します。よろしいですか？
                             </div>
                             <div class="modal-footer justify-content-between">
                                 <a class="btn btn-outline-grey" data-dismiss="modal">キャンセル</a>

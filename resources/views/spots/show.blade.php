@@ -6,8 +6,18 @@
     @include('nav')
     <div class="container">
         @include('spots.card')
-        @foreach($comments as $comment)
-            @include('comments.show')
-        @endforeach
+        <br>
+
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title m-0">
+                    コメント {{ $count_comments }}
+                </h4>
+            </div>
+            @foreach($comments as $comment)
+                @include('comments.show')
+            @endforeach
+        </div>
+
     </div>
 @endsection

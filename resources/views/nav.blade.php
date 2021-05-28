@@ -5,20 +5,9 @@
     <ul class="navbar-nav ml-auto">
         <li>
             <div class="container-fluid">
-                <form class="d-flex input-group w-auto" action="">
-                    <input
-                        type="keyword"
-                        class="form-control"
-                        placeholder="都道府県・都市名"
-                        aria-label="Search"
-                        name="keyword"
-                        value="{{ request('keyword') }}"
-                    />
-                    <button
-                        class="btn btn-outline-primary btn-sm"
-                        type="submit"
-                        data-mdb-ripple-color="dark"
-                    >
+                <form class="d-flex input-group w-auto" action="/">
+                    <input type="keyword" class="form-control" placeholder="都道府県・都市名" aria-label="Search" name="keyword" value="{{ request('keyword') }}"/>
+                    <button class="btn btn-outline-primary btn-sm" type="submit" data-mdb-ripple-color="dark">
                         検索
                     </button>
                 </form>
