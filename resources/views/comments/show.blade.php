@@ -6,7 +6,7 @@
             </a>
             <div>
                 <div class="font-weight-bold">
-                    <a href="{{ route('users.show', ['name' => $spot->user->name]) }}" class="text-dark">
+                    <a href="{{ route('users.show', ['name' => $comment->user->name]) }}" class="text-dark">
                         {{ $comment->user->name }}
                     </a>
                 </div>
@@ -17,8 +17,10 @@
                     {{ $comment->title }}
                 </div>
                     @if($comment->image)
-                        <img src="{{ Storage::url($comment->image) }}" width="150px">
-                        <img src="{{ Storage::url($users->users_images->noimage.png) }}" width="150px">
+                        <a href="" class="text-dark">
+                            <img src="{{ Storage::url($comment->image) }}" width="150px">
+                        </a>
+
                     @endif
                     {{ $comment->body }}
             </div>

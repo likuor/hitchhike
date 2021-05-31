@@ -26,7 +26,7 @@ class CommentRequest extends FormRequest
         return [
             'title' => 'required|max:50',
             'body' => 'required|max:400',
-            'image' => 'file|image',
+            'image' => 'file|image|mimes:jpeg,png',
         ];
     }
 

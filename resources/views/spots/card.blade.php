@@ -1,3 +1,4 @@
+<br>
 <div class="card">
     <div class="card-body d-flex flex-row">
         <a href="{{ route('spots.show', ['spot' => $spot]) }}">

@@ -24,7 +24,7 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'image_profile' => 'file|image',
+            'image_profile' => 'file|image|mimes:jpeg,png',
             'introduction' => 'max:400',
             'email' => 'required|max:255|email',
         ];

@@ -17,10 +17,12 @@
                                 @csrf
                                 <div class="form-group">
                                     <label class="form-label" for="customFile">プロフィール画像</label>
-                                    <input type="file" class="form-control" id="customFile" name="image_profile"/>
+                                    <input type="file" class="form-control" id="customFile" name="image_profile" onchange="previewImage(this)"/>
                                 </div>
                                 <div>
-                                    <img src="{{ Storage::url($user->image_profile) }}"/>
+                                    <img src="{{ Storage::url($user->image_profile) }}" width="250px"/>
+                                    <img id="preview" width="250px">
+                                    <script src="{{ asset('/js/sample.js') }}"></script>
                                 </div>
 
                                 <div class="md-form">
@@ -37,6 +39,8 @@
 
                                 <button type="submit" class="btn btn-primary btn-block">更新する</button>
                             </form>
+                            <script src="{{ asset('/js/image_preview.js') }}"></script>
+
                         </div>
                     </div>
                 </div>

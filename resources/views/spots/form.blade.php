@@ -27,5 +27,10 @@
 <!--  -->
 <div class="form-group">
     <label class="form-label" for="customFile">画像</label>
-    <input type="file" class="form-control" id="customFile" name="image_file_name"/>
+    <input type="file" class="form-control" id="customFile" name="image_file_name" onchange="previewImage(this)" />
 </div>
+@if( $spot->image_file_name !== null )
+    <img src="{{ Storage::url($spot->image_file_name) }}" width="250px"/>
+@endif
+<img id="preview" width="250px">
+<script src="{{ asset('/js/image_preview.js') }}"></script>
