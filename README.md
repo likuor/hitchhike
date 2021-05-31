@@ -1,6 +1,6 @@
 # hitchhike
 
-<version>
+--version--
 PHP 7.3.28
 Laravel 6.20.26
 PostgreSQL 11.6
