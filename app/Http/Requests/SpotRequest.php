@@ -29,7 +29,7 @@ class SpotRequest extends FormRequest
             'prefecture' => 'required|max:10',
             'city' => 'max:30',
             'street' => 'max:30',
-            'image_file_name' => 'file|image|mimes:jpeg,png',
+            'image_file_name.*.photo' => 'file|image|mimes:jpeg,png',
         ];
     }
 

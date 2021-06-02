@@ -20,8 +20,7 @@
                                     <input type="file" class="form-control" id="customFile" name="image_profile" onchange="previewImage(this)"/>
                                 </div>
                                 <div>
-                                    <img src="{{ Storage::url($user->image_profile) }}" width="250px"/>
-                                    <img id="preview" width="250px">
+                                    <img src="{{ Storage::url($user->image_profile) }}" id="preview" width="250px"/>
                                     <script src="{{ asset('/js/sample.js') }}"></script>
                                 </div>
 

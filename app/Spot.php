@@ -15,7 +15,7 @@ class Spot extends Model
         'prefecture',
         'city',
         'street',
-        'image_file_name',
+        'user_id'
     ];
 
     public function user():BelongsTo
@@ -43,5 +43,10 @@ class Spot extends Model
     public function comments():Hasmany
     {
         return $this->hasMany('App\Comment');
+    }
+
+    public function getSpotImages()
+    {
+        return $this->hasMany('App\SpotImage');
     }
 }

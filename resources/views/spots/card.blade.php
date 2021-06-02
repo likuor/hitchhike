@@ -2,11 +2,11 @@
 <div class="card">
     <div class="card-body d-flex flex-row">
         <a href="{{ route('spots.show', ['spot' => $spot]) }}">
-            <img src="{{ Storage::url($spot->image_file_name) }}" width="250px">
+            @foreach($spot->getSpotImages as $image)
+                <img src="{{ Storage::url($image->path) }}" width="250px" alt="">
+            @endforeach
         </a>
     </div>
-
-
     <div class="card-body d-flex flex-row">
         <a href="{{ route('users.show', ['name' => $spot->user->name]) }}" class="text-dark">
             <img src="{{ Storage::url($spot->user->image_profile) }}" width="50px" alt="">

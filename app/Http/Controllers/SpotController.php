@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Spot;
 use App\Comment;
+use App\SpotImage;
 use App\Http\Requests\SpotRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -18,6 +19,9 @@ class SpotController extends Controller
 
     public function index()
     {
+        // $spot_images = SpotImage::orderBy('created_at', 'desc');
+        // var_dump($spot_images);
+
         $spots = Spot::orderBy('created_at', 'desc')
         ->when(request('keyword') ?? null, function($query, $keyword) {
             $query->where(function ($query) use($keyword) {
@@ -43,12 +47,35 @@ class SpotController extends Controller
     {
         $spot->fill($request->all());
         $spot->user_id = $request->user()->id;
-        if(request('image_file_name')){
-            $filePath = $request->image_file_name->store('spots_images','public');
-            $spot->image_file_name = str_replace('spots_images/public/',time(), $filePath);
-        }
+        // if(request('image_file_name')){
+        //     $filePath = $request->image_file_name->store('spots_images','public');
+        //     $spot->image_file_name = str_replace('spots_images/public/',time(), $filePath);
+        // }
+        $spot = Spot::create([
+            'title'=> $request->title,
+            'body'=> $request->body ,
+            'prefecture'=> $request->prefecture,
+            'city'=> $request->city,
+            'street'=> $request->street ,
+            'user_id'=> $spot->user_id
+        ]);
 
-        $spot->save();
+        // 商品画像の保存
+        if(request('image_file_name')){
+            foreach ($request->image_file_name as $index=> $e) {
+                $ext = $e['photo']->guessExtension();
+                $spot->spot_id = $request->id;
+
+                $filePath = $request->image_file_name[$index]['photo']->store('spots_images','public');
+                // $filename = str_replace('spots_images/',time(), "{$filePath}_{$index}.{$ext}");
+                $path = $e['photo']->storeAs('', $filePath);
+                $spot->getSpotImages()->create(['path'=> $path]);
+            }
+        } else {
+            $spot->spot_id = $request->id;
+            $spot->getSpotImages()->create();
+        }
+        // $spot->save();
         return redirect()->route('spots.index');
     }
 
@@ -96,7 +123,7 @@ class SpotController extends Controller
         return view('spots.show', [
             'spot' => $spot,
             'comments' => $comments,
-            'count_comments' => $count_comments
+            'count_comments' => $count_comments,
         ]);
     }
 }
