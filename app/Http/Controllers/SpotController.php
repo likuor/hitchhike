@@ -19,9 +19,6 @@ class SpotController extends Controller
 
     public function index()
     {
-        // $spot_images = SpotImage::orderBy('created_at', 'desc');
-        // var_dump($spot_images);
-
         $spots = Spot::orderBy('created_at', 'desc')
         ->when(request('keyword') ?? null, function($query, $keyword) {
             $query->where(function ($query) use($keyword) {
@@ -51,6 +48,7 @@ class SpotController extends Controller
         //     $filePath = $request->image_file_name->store('spots_images','public');
         //     $spot->image_file_name = str_replace('spots_images/public/',time(), $filePath);
         // }
+        //スポット詳細の保存（画像以外）
         $spot = Spot::create([
             'title'=> $request->title,
             'body'=> $request->body ,
@@ -60,7 +58,7 @@ class SpotController extends Controller
             'user_id'=> $spot->user_id
         ]);
 
-        // 商品画像の保存
+        // 画像の保存
         if(request('image_file_name')){
             foreach ($request->image_file_name as $index=> $e) {
                 $ext = $e['photo']->guessExtension();
@@ -88,21 +86,56 @@ class SpotController extends Controller
         ]);
     }
 
-    public function update(SpotRequest $request, Spot $spot)
+    public function update(SpotRequest $request, Spot $spot , SpotImage $spot_images)
     {
+        $spot_images->spot_id = $spot->id;
         if (request('image_file_name')) {
 
-            if ( $spot->image_file_name !== 'spots_images/noimage.png' ) {
-                Storage::delete('public/' . $spot->image_file_name );
+            //publicから画像を削除
+            foreach ($spot->getSpotImages as $index) {
+                $filename = $index->path;
+                $imagesInDB[] = $index->path;
+                if ( $filename !== 'spots_images/noimage.png' ) {
+                    Storage::delete('public/' . $filename );
+                }
             }
-            $spot->fill($request->all());
-            $filePath = $request->image_file_name->store('spots_images','public');
-            $spot->image_file_name = str_replace('spots_images/public/',time(), $filePath);
 
-        } else {
-            $spot->fill($request->all());
+            foreach ($request->image_file_name as $index=> $e) {
+                $ext = $e['photo']->guessExtension();
+                $filePath = $request->image_file_name[$index]['photo']->store('spots_images','public');
+                $path = $e['photo']->storeAs('', $filePath);
+
+                if ( count($imagesInDB) == count($request->image_file_name) ) {
+                    $spot->getSpotImages()->update(['path'=> $path]);
+                } elseif ( count($imagesInDB) < count($request->image_file_name) ) {
+                    foreach ($imagesInDB as $key => $value) {
+                        $spot->getSpotImages()->updateOrCreate(['path' => $imagesInDB[$key]],['path'=> $path]);
+                    }
+                } elseif ( count($imagesInDB) > count($request->image_file_name) ) {
+                    foreach ($imagesInDB as $key => $value) {
+                        $spot->getSpotImages()->updateOrCreate(['path' => $imagesInDB[$key]],['path'=> $path]);
+                    }
+                }
+            }
+
+            // var_dump($spot_images->path);
+
+            // if ( $spot_images->path !== 'spots_images/noimage.png' ) {
+            //     Storage::delete('public/' . $spot_images->path );
+            // }
+            // $spot->fill($request->all());
+            // $filePath = $request->image_file_name->store('spots_images','public');
+            // $spot->image_file_name = str_replace('spots_images/public/',time(), $filePath);
+
+
+            // if ( $spot->image_file_name !== 'spots_images/noimage.png' ) {
+            //     Storage::delete('public/' . $spot->image_file_name );
+            // }
+            // $spot->fill($request->all());
+            // $filePath = $request->image_file_name->store('spots_images','public');
+            // $spot->image_file_name = str_replace('spots_images/public/',time(), $filePath);
         }
-
+        $spot->fill($request->all());
         $spot->save();
         return redirect()->route('spots.index');
     }

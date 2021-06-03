@@ -29,9 +29,8 @@
     <label class="form-label" for="customFile">画像</label>
     <input type="file" class="form-control" id="customFile" name="image_file_name[][photo]" onchange="previewImage(this)" multiple/>
 </div>
-@if($spot->image_file_name)
-    <img src="{{ Storage::url($spot->image_file_name) }}" id="preview" width="250px">
-@else
-    <img id="preview" width="250px">
-@endif
+@foreach($spot->getSpotImages as $image)
+    <img src="{{ Storage::url($image->path) }}" width="250px" id="preview" alt="">
+@endforeach
+
 <script src="{{ asset('/js/image_preview.js') }}"></script>
