@@ -32,8 +32,10 @@
         <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-user-circle"></i>
+            <img src="{{ Storage::url(Auth::user()->image_profile) }}" width="32px" alt="">
         </a>
+
+
         <div class="dropdown-menu dropdown-menu-right dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
             <button class="dropdown-item" type="button"
                     onclick="location.href='{{ route('users.show', ['name' => Auth::user()->name]) }}'">

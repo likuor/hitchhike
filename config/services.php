@@ -36,4 +36,7 @@ return [
         'redirect' => env('APP_URL') . '/login/google/callback',
     ],
 
+    'google_api' => env('GOOGLE_API_KEY'),
+
+
 ];
