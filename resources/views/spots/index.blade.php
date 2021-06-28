@@ -5,11 +5,13 @@
 @section('content')
 @include('nav')
 
-    <div class="container">
-        @foreach($spots as $spot)
-            @include('spots.card')
-        @endforeach
-        {{ $spots->links() }}
-    </div>
+<div class="container">
+    @include('spots.map')
+
+    @foreach($spots as $spot)
+        @include('spots.card')
+    @endforeach
+    {{ $spots->links() }}
+</div>
 
 @endsection
