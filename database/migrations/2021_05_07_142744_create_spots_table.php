@@ -20,6 +20,8 @@ class CreateSpotsTable extends Migration
             $table->text('prefecture');
             $table->text('city')->nullable();
             $table->text('street')->nullable();
+            $table->text('latitude')->nullable();
+            $table->text('longitude')->nullable();
             $table->bigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

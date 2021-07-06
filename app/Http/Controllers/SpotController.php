@@ -132,10 +132,14 @@ class SpotController extends Controller
     {
         $comments = Comment::all()->sortByDesc('created_at');
         $count_comments = '('.$comments->where('spot_id' , $spot->id)->count().'件)';
+        $lat = $spot->latitude;
+        $lng = $spot->longitude;
         return view('spots.show', [
             'spot' => $spot,
             'comments' => $comments,
             'count_comments' => $count_comments,
+            'lat' => $lat,
+            'lng' => $lng,
         ]);
     }
 }

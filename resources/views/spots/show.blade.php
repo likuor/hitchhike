@@ -10,9 +10,12 @@
 
         <div class="card">
         <div class="card-body">
-            <div id="map" style="height:200px">
-                    <script src="{{ asset('/js/setLocation.js') }}"></script>
-                    <script src="{{ asset('/js/map.js') }}"></script>
+            <div id="map" style="height:400px">
+                    <script>
+                        const lat = '{{$lat}}';
+                        const lng = '{{$lng}}';
+                    </script>
+                    <script src="{{ asset('/js/each_spot_map.js') }}"></script>
                     <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_api') }}&callback=initMap" async defer></script>
             </div>
         </div>
