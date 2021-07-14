@@ -5,8 +5,27 @@
 </div>
 <div class="form-group">
     <label></label>
-    <textarea name="body" required class="form-control" rows="8" placeholder="本文">{{ $spot->body ?? old('body') }}</textarea>
+    <textarea name="body" required class="form-control" rows="8" placeholder="詳細や検索ワードを入力">{{ $spot->body ?? old('body') }}</textarea>
 </div>
+
+<div class="form-group">
+    <label>緯度経度（地図をクリックすると詳細な場所を指定できます）</label>
+    <p>現在地：<span id="address"></span></p>
+    <div id="map" style="width:100%;height:400px;"></div>
+    <br>
+    <div class="row">
+        <div class="col-6">
+            <input id="lat" type="text" name="latitude" class="form-control" value="{{ $spot->latitude ?? old('latitude') }}" placeholder="緯度" readonly>
+        </div>
+        <div class="col-6">
+            <input id="lng" type="text" name="longitude" class="form-control" value="{{ $spot->longitude ?? old('longitude') }}" placeholder="経度" readonly>
+        </div>
+    </div>
+    <script src="{{ asset('/js/formmap.js') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_api') }}&callback=initMap" async defer></script>
+</div>
+
+
 <div class="form-group">
     <label>都道府県</label>
     <select name="prefecture" class="form-control">
@@ -17,7 +36,7 @@
 </div>
 <!-- 都道府県を入力したら動的に変更する -->
 <div class="md-form">
-    <label>区市町村</label>
+    <label>市区町村</label>
     <input type="text" name="city" class="form-control" value="{{ $spot->city ?? old('city') }}">
 </div>
 <div class="md-form">

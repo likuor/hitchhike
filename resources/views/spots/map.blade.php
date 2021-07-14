@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" style="margin-top:20px;">
     <div id="result" class="card-body">
         <p><button class="btn btn-primary btn-lg btn-block" onclick="getMyPlace()">現在位置を取得</button></p>
         <div id="address"></div>

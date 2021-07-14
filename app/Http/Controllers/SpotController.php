@@ -49,6 +49,8 @@ class SpotController extends Controller
         $spot = Spot::create([
             'title'=> $request->title,
             'body'=> $request->body ,
+            'latitude'=> $request->latitude ,
+            'longitude'=> $request->longitude ,
             'prefecture'=> $request->prefecture,
             'city'=> $request->city,
             'street'=> $request->street ,

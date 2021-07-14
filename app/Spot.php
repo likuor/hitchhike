@@ -12,6 +12,8 @@ class Spot extends Model
     protected $fillable = [
         'title',
         'body',
+        'latitude',
+        'longitude',
         'prefecture',
         'city',
         'street',

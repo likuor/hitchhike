@@ -26,6 +26,8 @@ class SpotRequest extends FormRequest
         return [
             'title' => 'required|max:50',
             'body' => 'required|max:400',
+            'latitude' => 'max:30',
+            'longitude' => 'max:30',
             'prefecture' => 'required|max:10',
             'city' => 'max:30',
             'street' => 'max:30',
