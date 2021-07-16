@@ -1,123 +1,65 @@
 <header>
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #e3f2fd;">
-    <div class="container-fluid">
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-mdb-toggle="collapse"
-            data-mdb-target="#navbarExample01"
-            aria-controls="navbarExample01"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-        >
-            <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarExample01">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item active">
-                    <a class="navbar-brand" aria-current="page" href="/"><i class="far fa-sticky-note mr-1"></i>hitchhike</a>
+    <div class="container-fluid justify-content-between">
+        <!-- Left elements -->
+        <div class="d-flex">
+            <!-- Brand -->
+            <a class="navbar-brand me-2 mb-1 d-flex align-items-center" aria-current="page" href="/">
+                <i class="far fa-sticky-note mr-1" height="20" loading="lazy" style="margin-top: 2px;">hitchhike</i>
+            </a>
+        </div>
+
+        <!-- Right elements -->
+        <ul class="navbar-nav flex-row">
+            <li class="nav-item me-3 me-lg-1">
+                <!-- Search form -->
+                <form class="input-group w-auto my-auto d-none d-flex" action="/">
+                    <input type="keyword" class="form-control rounded" placeholder="都道府県・都市名" aria-label="Search" name="keyword" value="{{ request('keyword') }}"/>
+                    <button class="input-group-text border-0 d-none d-flex" type="submit" data-mdb-ripple-color="dark" style="background-color: #e3f2fd;">
+                        <span type="submit" style="background-color: #e3f2fd;"><i class="fas fa-search"></i></span>
+                    </button>
+                </form>
+            </li>
+
+            <!-- during not login -->
+            @guest
+                <li class="nav-item me-3 me-lg-1">
+                    <a class="nav-link d-sm-flex align-items-sm-center" href="{{ route('register') }}">ユーザー登録</a>
                 </li>
-                <li class="nav-item">
-                    <form class="d-flex input-group w-auto" action="/">
-                        <input type="keyword" class="form-control" placeholder="都道府県・都市名" aria-label="Search" name="keyword" value="{{ request('keyword') }}"/>
-                        <button class="btn btn-outline-primary btn-sm" type="submit" data-mdb-ripple-color="dark">
-                            検索
-                        </button>
-                    </form>
+                <li class="nav-item me-3 me-lg-1">
+                    <a class="nav-link d-sm-flex align-items-sm-center" href="{{ route('login') }}">ログイン</a>
                 </li>
-                @guest
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('register') }}">ユーザー登録</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">ログイン</a>
-                </li>
-                @endguest
-                @auth
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('spots.create') }}"><i class="fas fa-pen mr-1"></i>投稿</a>
+            @endguest
+
+            <!-- during login -->
+            @auth
+                <li class="nav-item me-3 me-lg-1">
+                    <a class="nav-link d-sm-flex align-items-sm-center" href="{{ route('spots.create') }}"><i class="fas fa-pen mr-1"></i></a>
                 </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        <img src="{{ Storage::url(Auth::user()->image_profile) }}" width="32px" alt="">
+                <li class="nav-item me-3 me-lg-1 dropdown">
+                    <a class="nav-link d-sm-flex align-items-sm-center dropdown-toggle hidden-arrow" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false" role="button">
+                        <img src="{{ Storage::url(Auth::user()->image_profile) }}" class="rounded-circle" height="22" loading="lazy" alt="">
+                        <strong class="d-none d-sm-block ms-1">{{ Auth::user()->name }}</strong>
                     </a>
 
-                    <div class="dropdown-menu dropdown-menu-right dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                        <button class="dropdown-item" type="button"
-                                onclick="location.href='{{ route('users.show', ['name' => Auth::user()->name]) }}'">
-                            マイページ
-                        </button>
-                        <div class="dropdown-divider"></div>
-                        <button form="logout-button" class="dropdown-item" type="submit">
-                            ログアウト
-                        </button>
-                    </div>
+                    <!-- dropdown -->
+                    <ul class="dropdown-menu dropdown-menu-right dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                        <li>
+                            <button class="dropdown-item" onclick="location.href='{{ route('users.show', ['name' => Auth::user()->name]) }}'">My page</button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item" form="logout-button" type="submit">Logout</button>
+                        </li>
+                    </ul>
+
                 </li>
                 <form id="logout-button" method="POST" action=" {{ route('logout') }} ">
                     @csrf
                 </form>
-                @endauth
-            </ul>
-        </div>
+            @endauth
+        </ul>
     </div>
 </nav>
 </header>
-
-<!-- <nav class="navbar navbar-expand navbar-light" style="background-color: #e3f2fd;">
-
-    <a class="navbar-brand" href="/"><i class="far fa-sticky-note mr-1"></i>hitchhike</a>
-
-    <ul class="navbar-nav ml-auto">
-        <li>
-            <div class="container-fluid">
-                <form class="d-flex input-group w-auto" action="/">
-                    <input type="keyword" class="form-control" placeholder="都道府県・都市名" aria-label="Search" name="keyword" value="{{ request('keyword') }}"/>
-                    <button class="btn btn-outline-primary btn-sm" type="submit" data-mdb-ripple-color="dark">
-                        検索
-                    </button>
-                </form>
-            </div>
-        </li>
-
-    @guest
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('register') }}">ユーザー登録</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('login') }}">ログイン</a>
-        </li>
-    @endguest
-
-    @auth
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('spots.create') }}"><i class="fas fa-pen mr-1"></i>投稿</a>
-        </li>
-
-        <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            <img src="{{ Storage::url(Auth::user()->image_profile) }}" width="32px" alt="">
-        </a>
-
-
-        <div class="dropdown-menu dropdown-menu-right dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-            <button class="dropdown-item" type="button"
-                    onclick="location.href='{{ route('users.show', ['name' => Auth::user()->name]) }}'">
-                マイページ
-            </button>
-            <div class="dropdown-divider"></div>
-            <button form="logout-button" class="dropdown-item" type="submit">
-                ログアウト
-            </button>
-        </div>
-        </li>
-        <form id="logout-button" method="POST" action=" {{ route('logout') }} ">
-            @csrf
-        </form>
-    @endauth
-
-    </ul>
-
-</nav> -->
