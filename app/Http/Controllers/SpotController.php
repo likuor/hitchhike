@@ -42,35 +42,37 @@ class SpotController extends Controller
 
     public function store(SpotRequest $request, Spot $spot)
     {
-        $spot->fill($request->all());
+        $spot->fill($request->validated());
         $spot->user_id = $request->user()->id;
 
-        //スポット詳細の保存（画像以外）
-        $spot = Spot::create([
-            'title'=> $request->title,
-            'body'=> $request->body ,
-            'latitude'=> $request->latitude ,
-            'longitude'=> $request->longitude ,
-            'prefecture'=> $request->prefecture,
-            'city'=> $request->city,
-            'street'=> $request->street ,
-            'user_id'=> $spot->user_id
-        ]);
+        \DB::transaction(function () use ( $request , $spot ){
+            //スポット詳細の保存（画像以外）
+            $spot = Spot::create([
+                'title'=> $request->title,
+                'body'=> $request->body ,
+                'latitude'=> $request->latitude ,
+                'longitude'=> $request->longitude ,
+                'prefecture'=> $request->prefecture,
+                'city'=> $request->city,
+                'street'=> $request->street ,
+                'user_id'=> $spot->user_id
+            ]);
 
-        // 画像の保存
-        if(request('image_file_name')){
-            foreach ($request->image_file_name as $index=> $e) {
-                $ext = $e['photo']->guessExtension();
+            // 画像の保存
+            if(request('image_file_name')){
+                foreach ($request->image_file_name as $index=> $e) {
+                    $ext = $e['photo']->guessExtension();
+                    $spot->spot_id = $request->id;
+
+                    $filePath = $request->image_file_name[$index]['photo']->store('spots_images','public');
+                    $path = $e['photo']->storeAs('', $filePath);
+                    $spot->getSpotImages()->create(['path'=> $path]);
+                }
+            } else {
                 $spot->spot_id = $request->id;
-
-                $filePath = $request->image_file_name[$index]['photo']->store('spots_images','public');
-                $path = $e['photo']->storeAs('', $filePath);
-                $spot->getSpotImages()->create(['path'=> $path]);
+                $spot->getSpotImages()->create();
             }
-        } else {
-            $spot->spot_id = $request->id;
-            $spot->getSpotImages()->create();
-        }
+        });
         return redirect()->route('spots.index');
     }
 
@@ -86,46 +88,50 @@ class SpotController extends Controller
     public function update(SpotRequest $request, Spot $spot , SpotImage $spot_images)
     {
         $spot_images->spot_id = $spot->id;
-        if (request('image_file_name')) {
+        \DB::transaction(function () use( $request ,$spot , $spot_images ){
+            if (request('image_file_name')) {
+                //delete images from public folder
+                foreach ($spot->getSpotImages as $index) {
+                    $filename = $index->path;
+                    $imagesInDB[] = $index->path;
+                    if ( $filename !== 'spots_images/noimage.png' ) {
+                        Storage::delete('public/' . $filename );
+                    }
+                }
 
-            //delete images from public folder
-            foreach ($spot->getSpotImages as $index) {
-                $filename = $index->path;
-                $imagesInDB[] = $index->path;
-                if ( $filename !== 'spots_images/noimage.png' ) {
-                    Storage::delete('public/' . $filename );
+                //get images from request
+                foreach ($request->image_file_name as $index=> $e) {
+                    $ext = $e['photo']->guessExtension();
+                    $filePath = $request->image_file_name[$index]['photo']->store('spots_images','public');
+                    $path[] = $e['photo']->storeAs('', $filePath);
+                }
+
+                //update images
+                if ( $spot_images->path !== 'spots_images/noimage.png' ) {
+                    $spot->getSpotImages()->delete($spot->id);
+                    foreach ($path as $key => $value) {
+                        $spot->getSpotImages()->create(['path'=> $path[$key]]);
+                    }
                 }
             }
+            $spot->fill($request->validated());
+            $spot->save();
+        });
 
-            //get images from request
-            foreach ($request->image_file_name as $index=> $e) {
-                $ext = $e['photo']->guessExtension();
-                $filePath = $request->image_file_name[$index]['photo']->store('spots_images','public');
-                $path[] = $e['photo']->storeAs('', $filePath);
-            }
-
-            //update images
-            if ( $spot_images->path !== 'spots_images/noimage.png' ) {
-                $spot->getSpotImages()->delete($spot->id);
-                foreach ($path as $key => $value) {
-                    $spot->getSpotImages()->create(['path'=> $path[$key]]);
-                }
-            }
-        }
-        $spot->fill($request->all());
-        $spot->save();
         return redirect()->route('spots.index');
     }
 
     public function destroy(Spot $spot , SpotImage $spot_images)
     {
-        foreach ($spot->getSpotImages as $index) {
-            $filename = $index->path;
-            if ( $filename !== 'spots_images/noimage.png' ) {
-                Storage::delete('public/' . $filename );
+        \DB::transaction(function () use ($spot , $spot_images) {
+            foreach ($spot->getSpotImages as $index) {
+                $filename = $index->path;
+                if ( $filename !== 'spots_images/noimage.png' ) {
+                    Storage::delete('public/' . $filename );
+                }
             }
-        }
-        $spot->delete();
+            $spot->delete();
+        });
 
         return redirect()->route('spots.index');
     }

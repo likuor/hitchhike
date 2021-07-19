@@ -15,11 +15,11 @@ class Comment extends Model
 
     public function user():BelongsTo
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 
     public function spots():BelongsTo
     {
-        return $this->belongsTo('App\Spot');
+        return $this->belongsTo(Spot::class);
     }
 }

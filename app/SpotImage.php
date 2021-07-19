@@ -11,6 +11,6 @@ class SpotImage extends Model
 
     public function spot()
     {
-        return $this->belongsTo('App\Spot');
+        return $this->belongsTo(Spot::class);
     }
 }

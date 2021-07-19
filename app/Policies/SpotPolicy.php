@@ -67,28 +67,4 @@ class SpotPolicy
     {
         return $user->id === $spot->user_id;
     }
-
-    /**
-     * Determine whether the user can restore the spot.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Spot  $spot
-     * @return mixed
-     */
-    public function restore(User $user, Spot $spot)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the spot.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Spot  $spot
-     * @return mixed
-     */
-    public function forceDelete(User $user, Spot $spot)
-    {
-        //
-    }
 }

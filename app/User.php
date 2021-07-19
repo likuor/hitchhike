@@ -48,22 +48,22 @@ class User extends Authenticatable
 
     public function spots(): HasMany
     {
-        return $this->hasMany('App\Spot');
+        return $this->hasMany(Spot::class);
     }
 
     public function followers(): BelongsToMany
     {
-        return $this->belongsToMany('App\User', 'follows', 'followee_id', 'follower_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'follows', 'followee_id', 'follower_id')->withTimestamps();
     }
 
     public function followings(): BelongsToMany
     {
-        return $this->belongsToMany('App\User', 'follows', 'follower_id', 'followee_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followee_id')->withTimestamps();
     }
 
     public function likes(): BelongsToMany
     {
-        return $this->belongsToMany('App\Spot', 'likes')->withTimestamps();
+        return $this->belongsToMany(Spot::class, 'likes')->withTimestamps();
     }
 
     public function isFollowedBy(?User $user): bool
@@ -83,9 +83,9 @@ class User extends Authenticatable
         return $this->followings->count();
     }
 
-    public function comments():Hasmany
+    public function comments():HasMany
     {
-        return $this->hasMany('App\Comment');
+        return $this->hasMany(Comment::class);
     }
 
 }

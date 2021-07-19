@@ -24,7 +24,7 @@ class CommentController extends Controller
 
     public function store(CommentRequest $request, Comment $comment , Spot $spot_id)
     {
-        $comment->fill($request->all());
+        $comment->fill($request->validated());
         if(request('image')){
             $filePath = $request->image->store('comments_images','public');
             $comment->image = str_replace('comments_images/public/',time(), $filePath);
