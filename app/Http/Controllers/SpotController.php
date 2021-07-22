@@ -45,7 +45,7 @@ class SpotController extends Controller
         $spot->fill($request->validated());
         $spot->user_id = $request->user()->id;
 
-        \DB::transaction(function () use ( $request , $spot ){
+        return \DB::transaction(function () use ( $request , $spot ){
             //スポット詳細の保存（画像以外）
             $spot = Spot::create([
                 'title'=> $request->title,
@@ -72,8 +72,8 @@ class SpotController extends Controller
                 $spot->spot_id = $request->id;
                 $spot->getSpotImages()->create();
             }
+            return redirect()->route('spots.index');
         });
-        return redirect()->route('spots.index');
     }
 
     public function edit(Spot $spot)
@@ -88,7 +88,7 @@ class SpotController extends Controller
     public function update(SpotRequest $request, Spot $spot , SpotImage $spot_images)
     {
         $spot_images->spot_id = $spot->id;
-        \DB::transaction(function () use( $request ,$spot , $spot_images ){
+        return \DB::transaction(function () use( $request ,$spot , $spot_images ){
             if (request('image_file_name')) {
                 //delete images from public folder
                 foreach ($spot->getSpotImages as $index) {
@@ -116,14 +116,13 @@ class SpotController extends Controller
             }
             $spot->fill($request->validated());
             $spot->save();
+            return redirect()->route('spots.index');
         });
-
-        return redirect()->route('spots.index');
     }
 
     public function destroy(Spot $spot , SpotImage $spot_images)
     {
-        \DB::transaction(function () use ($spot , $spot_images) {
+        return \DB::transaction(function () use ($spot , $spot_images) {
             foreach ($spot->getSpotImages as $index) {
                 $filename = $index->path;
                 if ( $filename !== 'spots_images/noimage.png' ) {
@@ -131,9 +130,8 @@ class SpotController extends Controller
                 }
             }
             $spot->delete();
+            return redirect()->route('spots.index');
         });
-
-        return redirect()->route('spots.index');
     }
 
     public function show(Spot $spot , Comment $comment)
