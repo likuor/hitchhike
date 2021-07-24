@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Policies\SpotPolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -13,7 +15,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
+        \App\Models\Spot::class => SpotPolicy::class,
+        \App\Models\User::class => UserPolicy::class,
     ];
 
     /**

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Spot;
-use App\Comment;
-use App\SpotImage;
+use App\Models\Spot;
+use App\Models\Comment;
+use App\Models\SpotImage;
 use App\Http\Requests\SpotRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -15,6 +15,7 @@ class SpotController extends Controller
     public function __construct()
     {
         $this->authorizeResource(Spot::class, 'spot');
+        // $this->middleware('auth');
     }
 
     public function index()

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Models\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 
@@ -22,6 +22,7 @@ class UserController extends Controller
     public function edit(string $name)
     {
         $user = User::where('name', $name)->first();
+        $this->authorize('update', $user);
         return view('users.edit', [
             'user' => $user,
         ]);

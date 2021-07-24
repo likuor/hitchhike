@@ -13,24 +13,24 @@
                 >
                 </follow-button>
             @else
-                <a class="btn btn-primary ml-auto" href="{{ route('users.edit', ['name' => $user->name]) }}">
-                    プロフィールを編集
+                <a class="ml-auto" href="{{ route('users.edit', ['name' => $user->name]) }}">
+                    <button class="btn btn-primary btn-sm">プロフィールを編集</button>
                 </a>
             @endif
         </div>
-        <div class="card-text">
-            <h3 class="card-title m-0">
+        <div class="card-text font-weight-bold">
+            <h4>
                 <a href="{{ route('users.show', ['name' => $user->name]) }}" class="text-dark">
                     {{ $user->name }}
                 </a>
-            </h3>
+            </h4>
         </div>
     </div>
     <div class="card-body">
         <div class="card-text">
-            <h3 class="card-title m-0">
+            <h5 class="card-title m-0">
                 {{ $user->introduction }}
-            </h3>
+            </h5>
         </div>
     </div>
     <div class="card-body">

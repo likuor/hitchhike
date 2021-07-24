@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Spot;
-use App\User;
+use App\Models\Spot;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class SpotPolicy

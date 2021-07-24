@@ -5,24 +5,31 @@
                 <img src="{{ Storage::url($comment->user->image_profile) }}" width="50px" alt="">
             </a>
             <div>
-                <div class="font-weight-bold">
+                <div>
+                    <div class="font-weight-bold">
                     <a href="{{ route('users.show', ['name' => $comment->user->name]) }}" class="text-dark">
                         {{ $comment->user->name }}
                     </a>
+                    </div>
+                    <div class="font-weight-lighter">
+                        {{ $comment->created_at->format('Y/m/d H:i') }}
+                    </div>
                 </div>
-                <div class="font-weight-lighter">
-                    {{ $comment->created_at->format('Y/m/d H:i') }}
+                <div>
+                    <div class="font-weight-bold">
+                        {{ $comment->title }}
+                    </div>
+                    <div>
+                        {{ $comment->body }}
+                    </div>
+                    <div>
+                        @if($comment->image)
+                            <a href="" class="text-dark">
+                                <img src="{{ Storage::url($comment->image) }}" width="150px">
+                            </a>
+                        @endif
+                    </div>
                 </div>
-                <div class="font-weight-bold">
-                    {{ $comment->title }}
-                </div>
-                    @if($comment->image)
-                        <a href="" class="text-dark">
-                            <img src="{{ Storage::url($comment->image) }}" width="150px">
-                        </a>
-
-                    @endif
-                    {{ $comment->body }}
             </div>
 
             @if( Auth::id() === $comment->user_id )
