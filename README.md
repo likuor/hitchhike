@@ -1,4 +1,11 @@
-<<<<<<< HEAD
+## About Environment
+- PHP 7.3.28
+- Laravel 6.20.26
+- PostgreSQL 11.6
+- Vue.js 2.6.12
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
@@ -78,12 +85,3 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 hitchhike
-=======
-# hitchhike
-
---version--
-PHP 7.3.28
-Laravel 6.20.26
-PostgreSQL 11.6
-Vue.js 2.6.12
->>>>>>> origin/main
